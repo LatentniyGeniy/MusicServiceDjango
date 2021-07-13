@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-Создать задачу
+Создать альбом
 {% endblock %}
 
 {% block content %}
@@ -9,7 +9,9 @@
     <form method="post" >
         {% csrf_token %}
         {{ form.title }}<br>
-        {{ form.task }}<br>
+        {{ form.release_date }}<br>
+        {{ form.release_type }}<br>
+        {{ form.picture_link }}<br>
       <button class="submit" class="btn btn-success">Добавить</button>
         <span>{{ error }}</span>
     </form>

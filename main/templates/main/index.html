@@ -10,7 +10,9 @@
         {% for el in tasks %}
             <div class="alert alert-success mt-2">
                 <h3>{{ el.title}}</h3>
-                <p>{{el.task}}</p>
+                <p>{{el.release_date}}</p>
+                <p>{{el.release_type}}</p>
+                <p>{{el.picture_link}}</p>
             </div>
         {% endfor %}
     {% else %}
