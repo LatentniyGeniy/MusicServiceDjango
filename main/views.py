@@ -1,30 +1,35 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet, GenericViewSet, ReadOnlyModelViewSet
+from rest_framework.mixins import RetrieveModelMixin, ListModelMixin, CreateModelMixin, UpdateModelMixin, DestroyModelMixin
 
 
-from .models import Album
-from .serializers import AlbumListSerializer, AlbumCreateSerializer
+from main.models import Album, Genre, Artist, Song
+from main.serializers import AlbumDetailSerializer, AlbumCreateSerializer, GenreSerializer, ArtistSerializer, SongSerializer
 
 
-class AlbumListView(APIView):
-    def get(self, request):
-        albums = Album.objects.all()
-        serializer = AlbumListSerializer(albums, many=True)
-        return Response(serializer.data)
+class AlbumViewSet(ModelViewSet):
+    queryset = Album.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            serializer_class = AlbumCreateSerializer
+        else:
+            serializer_class = AlbumDetailSerializer
+        return serializer_class
 
 
-class AlbumCreateView(APIView):
-    def post(self, request):
-        album = AlbumCreateSerializer(data=request.data)
-        if album.is_valid():
-            album.save()
-        return Response(status=201)
+class GenreViewSet(ReadOnlyModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
 
 
+class ArtistViewSet(ModelViewSet):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
 
 
-
-
+class SongViewSet(ModelViewSet):
+    queryset = Song.objects.all()
+    serializer_class = SongSerializer
 
 
 

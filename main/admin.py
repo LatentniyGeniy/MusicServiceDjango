@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Album
+from main.models import Album, Artist, Genre, Song
 
 
-admin.site.register(Album)
+registered_models = {Album, Artist, Genre, Song}
+admin.site.register(registered_models)
