@@ -1,5 +1,9 @@
 # Default ignored
 /.idea/
 /venv/
-/core/__pycache__/
-/main/__pycache__/
+*.pyo
+*.pyc
+*.orig
+*.pid
+*~
+.idea
