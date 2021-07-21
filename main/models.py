@@ -37,8 +37,8 @@ class Album(models.Model):
 
 class Song(models.Model):
     title = models.CharField(max_length=100)
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, related_name='songs')
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='songs')
     genre = models.ManyToManyField(Genre)
     file_link = models.CharField(max_length=200)
 

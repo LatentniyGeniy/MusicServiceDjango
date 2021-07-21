@@ -3,7 +3,7 @@ from rest_framework.mixins import RetrieveModelMixin, ListModelMixin, CreateMode
 
 
 from main.models import Album, Genre, Artist, Song
-from main.serializers import AlbumDetailSerializer, AlbumCreateSerializer, GenreSerializer, ArtistSerializer, SongSerializer
+from main.serializers import AlbumDetailSerializer, AlbumCreateSerializer, GenreSerializer, ArtistDetailSerializer, SongDetailSerializer
 
 
 class AlbumViewSet(ModelViewSet):
@@ -24,81 +24,9 @@ class GenreViewSet(ReadOnlyModelViewSet):
 
 class ArtistViewSet(ModelViewSet):
     queryset = Artist.objects.all()
-    serializer_class = ArtistSerializer
+    serializer_class = ArtistDetailSerializer
 
 
 class SongViewSet(ModelViewSet):
     queryset = Song.objects.all()
-    serializer_class = SongSerializer
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# from django.shortcuts import render, redirect
-#
-# from .forms import AlbumForm
-# from .models import Album
-#
-#
-# def index(request):
-#     albums = Album.objects.all()
-#     return render(request, 'main/index.html', {'title': 'Главная страница сайта', 'albums': albums})
-#
-#
-# def create(request):
-#     error = ''
-#     if request.method == 'POST':
-#         form = AlbumForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('home')
-#         else:
-#             error = 'Форма неверна'
-#
-#     form = AlbumForm()
-#     context = {
-#         'form': form,
-#         'error': error
-#     }
-#     return render(request, 'main/create.html', context)
-#
-#
-# def edit(request, id):
-#     album = Album.objects.get(id=id)
-#     return render(request, 'main/create.html', {'album': album})
+    serializer_class = SongDetailSerializer
