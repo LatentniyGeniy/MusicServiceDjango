@@ -9,65 +9,46 @@ class SongSerializer(serializers.ModelSerializer):
         fields = ("title",)
 
 
-class AlbumCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Album
-        fields = "__all__"
-
-
 class AlbumDetailSerializer(serializers.ModelSerializer):
     songs = SongSerializer(many=True, read_only=True)
 
     class Meta:
         model = Album
-        fields = ("title", "release_date", "release_type", "picture_link", 'songs')
+        fields = ("id", "title", "release_date", "artist", "genre", "release_type", "picture_link", 'songs')
 
 
 class AlbumListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album
-        fields = ("title", "release_date", "release_type")
+        fields = ("id", "title", "release_date", "release_type")
 
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = ("title",)
-
-
-class ArtistCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Artist
-        fields = "__all__"
+        fields = ("id", "title")
 
 
 class ArtistDetailSerializer(serializers.ModelSerializer):
-    songs = SongSerializer(many=True, read_only=True)
 
     class Meta:
         model = Artist
-        fields = ("title", "genre", "picture_link", 'songs')
+        fields = ("id", "title", "genre", "picture_link")
 
 
 class ArtistListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
-        fields = ("title", "genre")
-
-
-class SongCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Song
-        fields = "__all__"
+        fields = ("id", "title", "genre")
 
 
 class SongListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Song
-        fields = ("title", "artist")
+        fields = ("id", "title", "artist")
 
 
 class SongDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Song
-        fields = ("title", "artist", "album", "genre", "file_link")
+        fields = ("id", "title", "album", "genre", "file_link")

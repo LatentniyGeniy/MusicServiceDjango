@@ -1,6 +1,4 @@
 # Default ignored
-/.idea/
-/venv/
 *.pyo
 *.pyc
 *.orig
@@ -8,3 +6,14 @@
 *~
 .idea
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

@@ -2,19 +2,18 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet, ReadOnlyModelV
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin, CreateModelMixin, UpdateModelMixin, DestroyModelMixin
 
 
+from main.mixins import MultiSerializerViewSetMixin
 from main.models import Album, Genre, Artist, Song
-from main.serializers import AlbumDetailSerializer, AlbumCreateSerializer, GenreSerializer, ArtistDetailSerializer, SongDetailSerializer
+from main.serializers import AlbumDetailSerializer, AlbumListSerializer, GenreSerializer, ArtistDetailSerializer, ArtistListSerializer, SongDetailSerializer, SongListSerializer
 
 
-class AlbumViewSet(ModelViewSet):
+class AlbumViewSet(MultiSerializerViewSetMixin, ModelViewSet):
     queryset = Album.objects.all()
-
-    def get_serializer_class(self):
-        if self.request.method == 'POST':
-            serializer_class = AlbumCreateSerializer
-        else:
-            serializer_class = AlbumDetailSerializer
-        return serializer_class
+    serializer_class = AlbumDetailSerializer
+    serializer_action_classes = {
+        'list': AlbumListSerializer,
+        'create': AlbumDetailSerializer,
+    }
 
 
 class GenreViewSet(ReadOnlyModelViewSet):
@@ -25,8 +24,16 @@ class GenreViewSet(ReadOnlyModelViewSet):
 class ArtistViewSet(ModelViewSet):
     queryset = Artist.objects.all()
     serializer_class = ArtistDetailSerializer
+    serializer_action_classes = {
+        'list': ArtistListSerializer,
+        'create': ArtistDetailSerializer,
+    }
 
 
 class SongViewSet(ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongDetailSerializer
+    serializer_action_classes = {
+        'list': SongListSerializer,
+        'create': SongDetailSerializer,
+    }
