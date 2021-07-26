@@ -1,3 +1,7 @@
-Django>=3.0,<4.0
-psycopg2-binary>=2.8
-django-rest-framework
+Django==3.2.5
+djangorestframework==3.12.4
+factory-boy==3.2.0
+Faker==8.10.3
+psycopg2-binary==2.9.1
+pytest==6.2.4
+pytest-django==4.4.0

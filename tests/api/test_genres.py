@@ -23,11 +23,13 @@ class TestGenres:
         test genre details for non-existing genre
         """
         res = client.get(
-            f'api/v1/genres/{faker.Faker().random_number(digits=30)}/')
+            f'/api/v1/genres/{faker.Faker().random_number(digits=30)}/')
 
         assert res.status_code == status.HTTP_404_NOT_FOUND
 
     def test_detail(self, client, genre):
-        res = client.get(f'api/v1/genres/{genre.id}')
-        print(res)
+        res = client.get(f'/api/v1/genres/{genre.id}/')
+        import pdb; pdb.set_trace()
+        response_data = res.json()
         assert res.status_code == status.HTTP_200_OK
+        assert response_data['title'] == genre.title
