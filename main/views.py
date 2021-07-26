@@ -21,7 +21,7 @@ class GenreViewSet(ReadOnlyModelViewSet):
     serializer_class = GenreSerializer
 
 
-class ArtistViewSet(ModelViewSet):
+class ArtistViewSet(MultiSerializerViewSetMixin, ModelViewSet):
     queryset = Artist.objects.all()
     serializer_class = ArtistDetailSerializer
     serializer_action_classes = {
@@ -30,7 +30,7 @@ class ArtistViewSet(ModelViewSet):
     }
 
 
-class SongViewSet(ModelViewSet):
+class SongViewSet(MultiSerializerViewSetMixin, ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongDetailSerializer
     serializer_action_classes = {
