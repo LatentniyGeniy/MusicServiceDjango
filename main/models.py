@@ -1,5 +1,5 @@
 from django.db import models
-from main.choices import AlbumTypeChoices
+from main.choices import RELEASE_TYPE_CHOICES, ALBUM
 
 
 class Genre(models.Model):
@@ -21,8 +21,8 @@ class Album(models.Model):
     release_date = models.DateField()
     release_type = models.CharField(
         max_length=10,
-        choices=AlbumTypeChoices.RELEASE_TYPE_CHOICES,
-        default=AlbumTypeChoices.ALBUM
+        choices=RELEASE_TYPE_CHOICES,
+        default=ALBUM
     )
     genre = models.ManyToManyField(Genre)
     picture_link = models.CharField(max_length=255)
