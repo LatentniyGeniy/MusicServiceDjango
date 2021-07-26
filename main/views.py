@@ -1,99 +1,39 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet, GenericViewSet, ReadOnlyModelViewSet
+from rest_framework.mixins import RetrieveModelMixin, ListModelMixin, CreateModelMixin, UpdateModelMixin, DestroyModelMixin
 
 
-from .models import Album
-from .serializers import AlbumListSerializer, AlbumCreateSerializer
+from main.mixins import MultiSerializerViewSetMixin
+from main.models import Album, Genre, Artist, Song
+from main.serializers import AlbumDetailSerializer, AlbumListSerializer, GenreSerializer, ArtistDetailSerializer, ArtistListSerializer, SongDetailSerializer, SongListSerializer
 
 
-class AlbumListView(APIView):
-    def get(self, request):
-        albums = Album.objects.all()
-        serializer = AlbumListSerializer(albums, many=True)
-        return Response(serializer.data)
+class AlbumViewSet(MultiSerializerViewSetMixin, ModelViewSet):
+    queryset = Album.objects.all()
+    serializer_class = AlbumDetailSerializer
+    serializer_action_classes = {
+        'list': AlbumListSerializer,
+        'create': AlbumDetailSerializer,
+    }
 
 
-class AlbumCreateView(APIView):
-    def post(self, request):
-        album = AlbumCreateSerializer(data=request.data)
-        if album.is_valid():
-            album.save()
-        return Response(status=201)
+class GenreViewSet(ReadOnlyModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
 
 
+class ArtistViewSet(MultiSerializerViewSetMixin, ModelViewSet):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistDetailSerializer
+    serializer_action_classes = {
+        'list': ArtistListSerializer,
+        'create': ArtistDetailSerializer,
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# from django.shortcuts import render, redirect
-#
-# from .forms import AlbumForm
-# from .models import Album
-#
-#
-# def index(request):
-#     albums = Album.objects.all()
-#     return render(request, 'main/index.html', {'title': 'Главная страница сайта', 'albums': albums})
-#
-#
-# def create(request):
-#     error = ''
-#     if request.method == 'POST':
-#         form = AlbumForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('home')
-#         else:
-#             error = 'Форма неверна'
-#
-#     form = AlbumForm()
-#     context = {
-#         'form': form,
-#         'error': error
-#     }
-#     return render(request, 'main/create.html', context)
-#
-#
-# def edit(request, id):
-#     album = Album.objects.get(id=id)
-#     return render(request, 'main/create.html', {'album': album})
+class SongViewSet(MultiSerializerViewSetMixin, ModelViewSet):
+    queryset = Song.objects.all()
+    serializer_class = SongDetailSerializer
+    serializer_action_classes = {
+        'list': SongListSerializer,
+        'create': SongDetailSerializer,
+    }

@@ -1,5 +1,19 @@
 # Default ignored
-/.idea/
-/venv/
-/core/__pycache__/
-/main/__pycache__/
+*.pyo
+*.pyc
+*.orig
+*.pid
+*~
+.idea
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
