@@ -1,5 +1,5 @@
 from django.db import models
-from main.choices import RELEASE_TYPE_CHOICES, ALBUM
+from main.choices import ALBUM, RELEASE_TYPE_CHOICES
 
 
 class Genre(models.Model):
