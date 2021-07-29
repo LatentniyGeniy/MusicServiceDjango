@@ -14,13 +14,28 @@ def genre():
 
 
 @pytest.fixture
+def artist():
+    return ArtistFactory.create()
+
+
+@pytest.fixture
 def artists(artists_qty):
     return ArtistFactory.create_batch(size=artists_qty)
 
 
 @pytest.fixture
+def album():
+    return AlbumFactory.create()
+
+
+@pytest.fixture
 def albums(albums_qty):
     return AlbumFactory.create_batch(size=albums_qty)
+
+
+@pytest.fixture
+def song():
+    return SongFactory.create()
 
 
 @pytest.fixture

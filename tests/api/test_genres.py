@@ -29,7 +29,6 @@ class TestGenres:
 
     def test_detail(self, client, genre):
         res = client.get(f'/api/v1/genres/{genre.id}/')
-        import pdb; pdb.set_trace()
         response_data = res.json()
         assert res.status_code == status.HTTP_200_OK
         assert response_data['title'] == genre.title
