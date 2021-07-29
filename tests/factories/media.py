@@ -1,4 +1,3 @@
-from random import randint
 from factory import fuzzy
 
 import factory
@@ -7,20 +6,8 @@ import factory
 from main.models import Genre, Artist, Album, Song
 
 
-GENRES = [
-    'Hip - Hop',
-    'Reggae',
-    'Pop',
-    'Indie',
-    'Rock',
-    'Classic',
-    'R & B',
-    'Jazz',
-]
-
-
 class GenreFactory(factory.django.DjangoModelFactory):
-    title = factory.Sequence(lambda n: GENRES[n % len(GENRES)])
+    title = factory.fuzzy.FuzzyText(length=10)
 
     class Meta:
         model = Genre
