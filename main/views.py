@@ -2,13 +2,15 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from main.mixins import MultiSerializerViewSetMixin
 from main.models import Album, Genre, Artist, Song
-from main.serializers import (AlbumDetailSerializer,
-                              AlbumListSerializer,
-                              GenreSerializer,
-                              ArtistDetailSerializer,
-                              ArtistListSerializer,
-                              SongDetailSerializer,
-                              SongListSerializer)
+from main.serializers import (
+    AlbumDetailSerializer,
+    AlbumListSerializer,
+    GenreSerializer,
+    ArtistDetailSerializer,
+    ArtistListSerializer,
+    SongDetailSerializer,
+    SongListSerializer
+)
 
 
 class AlbumViewSet(MultiSerializerViewSetMixin, ModelViewSet):

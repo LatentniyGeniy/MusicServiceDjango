@@ -50,3 +50,5 @@ class TestArtists:
 
         assert res.status_code == status.HTTP_200_OK
         assert response_data['title'] == artist.title
+        assert response_data['picture_link'] == artist.picture_link
+        assert len(response_data['genre']) == artist.genre.count()

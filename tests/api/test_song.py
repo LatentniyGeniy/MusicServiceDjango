@@ -50,8 +50,5 @@ class TestSong:
 
         assert res.status_code == status.HTTP_200_OK
         assert response_data['title'] == song.title
-
-# GET /api/v1/songs/ - GET LIST
-# POST /api/v1/songs/ - CREATE NEW SONG
-# GET /api/v1/songs/<song_id>/ - GET DETAIL SONG <SONG_ID>
-# PATCH/PUT /api/v1/songs/<song_id>/ - UPDATE SONG <SONG_ID>
+        assert response_data['album'] == song.album.id
+        assert len(response_data['genre']) == song.genre.count()

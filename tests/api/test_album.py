@@ -17,8 +17,7 @@ class TestAlbum:
         assert res.status_code == status.HTTP_200_OK
         assert len(res.json()) == albums_qty
 
-    @pytest.mark.parametrize('artists_qty', [3])
-    @pytest.mark.parametrize('genres_qty', [3])
+    @pytest.mark.parametrize('artists_qty, genres_qty', [(3, 3)])
     def test_create_album(self, client, artists, genres, genres_qty, artists_qty):
         data = {
             'title': 'Album',
@@ -61,3 +60,8 @@ class TestAlbum:
 
         assert res.status_code == status.HTTP_200_OK
         assert response_data['title'] == album.title
+        assert response_data['picture_link'] == album.picture_link
+        assert response_data['release_type'] == album.release_type
+        assert response_data['release_date'] == album.release_date.strftime('%Y-%m-%d')
+        assert len(response_data['artist']) == album.artist.count()
+        assert len(response_data['genre']) == album.genre.count()
