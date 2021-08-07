@@ -1,7 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from main import views
-
+from core.apps.main import views
 
 router = DefaultRouter()
 router.register('albums', views.AlbumViewSet)

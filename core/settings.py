@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'main',
+    'core.apps.main',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -84,6 +84,13 @@ DATABASES = {
         'HOST': 'postgres',
         'PORT': 5432,
     }
+}
+
+# DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }
 
 

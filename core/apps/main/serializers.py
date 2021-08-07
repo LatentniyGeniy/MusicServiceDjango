@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from main.models import Album, Genre, Artist, Song
+from core.apps.main.models import Album, Genre, Artist, Song
 
 
 class SongSerializer(serializers.ModelSerializer):
