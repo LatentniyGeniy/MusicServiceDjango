@@ -1,5 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
 from core.apps.main import views
 
 router = DefaultRouter()
@@ -10,5 +11,5 @@ router.register('songs', views.SongViewSet)
 
 
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
+    path('', include(router.urls)),
 ]
