@@ -1,5 +1,5 @@
 from django.contrib import admin
-from main.models import Album, Artist, Genre, Song
+from core.apps.main.models import Album, Artist, Genre, Song
 
 
 admin.site.register(Album)

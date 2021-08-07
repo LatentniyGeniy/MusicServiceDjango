@@ -1,6 +1,6 @@
 import pytest
 
-from tests.factories.media import GenreFactory, ArtistFactory, AlbumFactory, SongFactory
+from core.tests.factories.media import GenreFactory, ArtistFactory, AlbumFactory, SongFactory
 
 
 @pytest.fixture

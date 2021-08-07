@@ -3,7 +3,7 @@ from factory import fuzzy
 import factory
 
 
-from main.models import Genre, Artist, Album, Song
+from core.apps.main import Genre, Artist, Album, Song
 
 
 class GenreFactory(factory.django.DjangoModelFactory):

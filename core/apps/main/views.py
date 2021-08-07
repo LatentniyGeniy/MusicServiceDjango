@@ -1,15 +1,18 @@
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.mixins import ListModelMixin, CreateModelMixin
+from rest_framework.permissions import AllowAny
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet, GenericViewSet
 
-from main.mixins import MultiSerializerViewSetMixin
-from main.models import Album, Genre, Artist, Song
-from main.serializers import (
+from core.apps.main.mixins import MultiSerializerViewSetMixin
+from core.apps.main.models import Album, Genre, Artist, Song, User
+from core.apps.main.serializers import (
     AlbumDetailSerializer,
     AlbumListSerializer,
     GenreSerializer,
     ArtistDetailSerializer,
     ArtistListSerializer,
     SongDetailSerializer,
-    SongListSerializer
+    SongListSerializer,
+    RegistrationSerializer,
 )
 
 
@@ -43,3 +46,9 @@ class SongViewSet(MultiSerializerViewSetMixin, ModelViewSet):
         'list': SongListSerializer,
         'create': SongDetailSerializer,
     }
+
+
+class RegistrationAPIView(GenericViewSet, ListModelMixin, CreateModelMixin):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegistrationSerializer
