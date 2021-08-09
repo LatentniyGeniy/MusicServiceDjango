@@ -1,6 +1,6 @@
 import pytest
 
-from core.tests.factories.media import GenreFactory, ArtistFactory, AlbumFactory, SongFactory
+from core.tests.factories.media import GenreFactory, ArtistFactory, AlbumFactory, SongFactory, UserFactory
 
 
 @pytest.fixture
@@ -41,3 +41,8 @@ def song():
 @pytest.fixture
 def songs(songs_qty):
     return SongFactory.create_batch(size=songs_qty)
+
+
+@pytest.fixture
+def user():
+    return UserFactory.create()

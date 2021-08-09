@@ -1,9 +1,12 @@
+import datetime
+
 from factory import fuzzy
+from faker import Faker
 
 import factory
+from pytz import UTC
 
-
-from core.apps.main import Genre, Artist, Album, Song
+from core.apps.main.models import Genre, Artist, Album, Song, User
 
 
 class GenreFactory(factory.django.DjangoModelFactory):
@@ -42,3 +45,21 @@ class SongFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Song
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    username = factory.fuzzy.FuzzyText(length=10)
+    email = factory.LazyAttribute(lambda a: '{}@example.com'.format(a.username).lower())
+
+    is_active = True
+    is_staff = False
+
+    created_at = factory.fuzzy.FuzzyDateTime(datetime.datetime(2021, 12, 12, tzinfo=UTC),
+                                             datetime.datetime(2021, 12, 12, tzinfo=UTC),
+                                             force_day=3, force_second=42)
+    updated_at = factory.fuzzy.FuzzyDateTime(datetime.datetime(2021, 1, 1, tzinfo=UTC),
+                                             datetime.datetime(2021, 12, 12, tzinfo=UTC),
+                                             force_day=3, force_second=42)
+
+    class Meta:
+        model = User
