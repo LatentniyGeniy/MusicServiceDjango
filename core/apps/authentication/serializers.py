@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.apps.main.models import User
+from django.contrib.auth import get_user_model
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -10,12 +10,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
         min_length=8,
         write_only=True
     )
-
     token = serializers.CharField(max_length=255, read_only=True)
 
     class Meta:
-        model = User
+        model = get_user_model()
         fields = ['email', 'username', 'password', 'token']
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        return get_user_model().objects.create_user(**validated_data)
