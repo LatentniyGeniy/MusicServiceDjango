@@ -17,8 +17,9 @@ class TestSong:
         assert res.status_code == status.HTTP_200_OK
         assert len(res.json()) == songs_qty
 
-    @pytest.mark.parametrize('genres_qty', [5])
-    def test_create_song(self, client, album, genres, genres_qty):
+    @pytest.mark.parametrize('genres_qty', [3])
+    def test_create_song(self, client, album, genres, genres_qty, user):
+        client.force_login(user)
         data = {
             'title': 'Some title',
             'genre': [genre.id for genre in genres],
@@ -34,7 +35,8 @@ class TestSong:
         assert len(response_data['genre']) == len(data['genre'])
         assert response_data['album'] == data['album']
 
-    def test_update_song(self, client, song):
+    def test_update_song(self, client, song, user):
+        client.force_login(user)
         data = {
             'title': 'Edited title',
         }

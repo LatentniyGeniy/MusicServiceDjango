@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth import get_user_model
 from factory import fuzzy
 from faker import Faker
 
@@ -50,16 +51,12 @@ class SongFactory(factory.django.DjangoModelFactory):
 class UserFactory(factory.django.DjangoModelFactory):
     username = factory.fuzzy.FuzzyText(length=10)
     email = factory.LazyAttribute(lambda a: '{}@example.com'.format(a.username).lower())
-
-    is_active = True
-    is_staff = False
-
-    created_at = factory.fuzzy.FuzzyDateTime(datetime.datetime(2021, 12, 12, tzinfo=UTC),
-                                             datetime.datetime(2021, 12, 12, tzinfo=UTC),
-                                             force_day=3, force_second=42)
-    updated_at = factory.fuzzy.FuzzyDateTime(datetime.datetime(2021, 1, 1, tzinfo=UTC),
-                                             datetime.datetime(2021, 12, 12, tzinfo=UTC),
-                                             force_day=3, force_second=42)
+    password = factory.fuzzy.FuzzyText(length=15)
 
     class Meta:
-        model = User
+        model = get_user_model()
+
+
+class SuperUserFactory(UserFactory):
+    is_superuser = True
+    is_staff = True

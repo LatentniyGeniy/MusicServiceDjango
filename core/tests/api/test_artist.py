@@ -1,4 +1,5 @@
 import pytest
+from django.contrib.auth import get_user_model
 
 from rest_framework import status
 
@@ -18,13 +19,18 @@ class TestArtists:
         assert len(res.json()) == artists_qty
 
     @pytest.mark.parametrize('genres_qty', [3])
-    def test_create_artist(self, client, genres, genres_qty):
+    def test_create_artist(self, client, genres, genres_qty, user):
         data = {
             'title': 'Artist',
             'picture_link': 'https://file/adrthy.png',
             'genre': [genre.id for genre in genres],
         }
         res = client.post(f'/api/v1/artists/', data=data, content_type='application/json')
+
+        assert res.status_code == status.HTTP_403_FORBIDDEN
+
+        client.force_login(user)
+
         response_data = res.json()
 
         assert res.status_code == status.HTTP_201_CREATED
@@ -32,7 +38,8 @@ class TestArtists:
         assert response_data['picture_link'] == data['picture_link']
         assert len(response_data['genre']) == len(data['genre'])
 
-    def test_update_artist(self, client, artist):
+    def test_update_artist(self, client, artist, user):
+        client.force_login(user)
         data = {
             'title': 'Edited Artist',
             'picture_link': 'https://file/rtyrtyry.png',

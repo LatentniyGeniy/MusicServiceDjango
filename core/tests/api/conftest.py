@@ -1,6 +1,13 @@
 import pytest
 
-from core.tests.factories.media import GenreFactory, ArtistFactory, AlbumFactory, SongFactory, UserFactory
+from core.tests.factories.media import (
+    GenreFactory,
+    ArtistFactory,
+    AlbumFactory,
+    SongFactory,
+    UserFactory,
+    SuperUserFactory,
+)
 
 
 @pytest.fixture
@@ -46,3 +53,8 @@ def songs(songs_qty):
 @pytest.fixture
 def user():
     return UserFactory.create()
+
+
+@pytest.fixture
+def superuser():
+    return SuperUserFactory.create()

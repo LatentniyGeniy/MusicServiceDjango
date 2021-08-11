@@ -1,9 +1,9 @@
 from rest_framework.mixins import ListModelMixin, CreateModelMixin
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet, GenericViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from core.apps.main.mixins import MultiSerializerViewSetMixin
-from core.apps.main.models import Album, Genre, Artist, Song, User
+from core.apps.main.mixins import MultiSerializerViewSetMixin, PermissionByActionMixin
+from core.apps.main.models import Album, Genre, Artist, Song
 from core.apps.main.serializers import (
     AlbumDetailSerializer,
     AlbumListSerializer,
@@ -15,7 +15,7 @@ from core.apps.main.serializers import (
 )
 
 
-class AlbumViewSet(MultiSerializerViewSetMixin, ModelViewSet):
+class AlbumViewSet(MultiSerializerViewSetMixin, ModelViewSet, PermissionByActionMixin):
     queryset = Album.objects.all()
     serializer_class = AlbumDetailSerializer
     serializer_action_classes = {
@@ -25,32 +25,15 @@ class AlbumViewSet(MultiSerializerViewSetMixin, ModelViewSet):
     permission_classes_by_action = {'list': [AllowAny],
                                     'create': [IsAuthenticated]}
 
-    #слишком часто повторяется. Это же неправильно? как лучше исправить?
-    def get_permissions(self):
-        try:
-            # return permission_classes depending on `action`
-            return [permission() for permission in self.permission_classes_by_action[self.action]]
-        except KeyError:
-            # action is not set return default permission_classes
-            return [permission() for permission in self.permission_classes]
 
-
-class GenreViewSet(GenericViewSet, CreateModelMixin, ListModelMixin):
+class GenreViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, PermissionByActionMixin):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
     permission_classes_by_action = {'list': [AllowAny],
                                     'create': [IsAdminUser]}
 
-    def get_permissions(self):
-        try:
-            # return permission_classes depending on `action`
-            return [permission() for permission in self.permission_classes_by_action[self.action]]
-        except KeyError:
-            # action is not set return default permission_classes
-            return [permission() for permission in self.permission_classes]
 
-
-class ArtistViewSet(MultiSerializerViewSetMixin, ModelViewSet):
+class ArtistViewSet(MultiSerializerViewSetMixin, ModelViewSet, PermissionByActionMixin):
     queryset = Artist.objects.all()
     serializer_class = ArtistDetailSerializer
     serializer_action_classes = {
@@ -60,16 +43,8 @@ class ArtistViewSet(MultiSerializerViewSetMixin, ModelViewSet):
     permission_classes_by_action = {'list': [AllowAny],
                                     'create': [IsAuthenticated]}
 
-    def get_permissions(self):
-        try:
-            # return permission_classes depending on `action`
-            return [permission() for permission in self.permission_classes_by_action[self.action]]
-        except KeyError:
-            # action is not set return default permission_classes
-            return [permission() for permission in self.permission_classes]
 
-
-class SongViewSet(MultiSerializerViewSetMixin, ModelViewSet):
+class SongViewSet(MultiSerializerViewSetMixin, PermissionByActionMixin, ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongDetailSerializer
     serializer_action_classes = {
@@ -78,11 +53,3 @@ class SongViewSet(MultiSerializerViewSetMixin, ModelViewSet):
     }
     permission_classes_by_action = {'list': [AllowAny],
                                     'create': [IsAuthenticated]}
-
-    def get_permissions(self):
-        try:
-            # return permission_classes depending on `action`
-            return [permission() for permission in self.permission_classes_by_action[self.action]]
-        except KeyError:
-            # action is not set return default permission_classes
-            return [permission() for permission in self.permission_classes]

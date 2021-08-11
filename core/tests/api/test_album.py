@@ -18,7 +18,8 @@ class TestAlbum:
         assert len(res.json()) == albums_qty
 
     @pytest.mark.parametrize('artists_qty, genres_qty', [(3, 3)])
-    def test_create_album(self, client, artists, genres, genres_qty, artists_qty):
+    def test_create_album(self, client, artists, genres, genres_qty, artists_qty, user):
+        client.force_login(user)
         data = {
             'title': 'Album',
             'artist': [artist.id for artist in artists],
@@ -38,7 +39,8 @@ class TestAlbum:
         assert len(response_data['genre']) == len(data['genre'])
         assert response_data['picture_link'] == data['picture_link']
 
-    def test_update_album(self, client, album):
+    def test_update_album(self, client, album, user):
+        client.force_login(user)
         data = {
             'title': 'Edited Album',
             'picture_link': 'https://file/rtyrtyry.png',
