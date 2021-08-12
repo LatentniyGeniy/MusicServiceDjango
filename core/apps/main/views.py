@@ -1,4 +1,4 @@
-from rest_framework.mixins import ListModelMixin, CreateModelMixin
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
@@ -15,7 +15,7 @@ from core.apps.main.serializers import (
 )
 
 
-class AlbumViewSet(MultiSerializerViewSetMixin, ModelViewSet, PermissionByActionMixin):
+class AlbumViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
     queryset = Album.objects.all()
     serializer_class = AlbumDetailSerializer
     serializer_action_classes = {
@@ -26,14 +26,14 @@ class AlbumViewSet(MultiSerializerViewSetMixin, ModelViewSet, PermissionByAction
                                     'create': [IsAuthenticated]}
 
 
-class GenreViewSet(GenericViewSet, CreateModelMixin, ListModelMixin, PermissionByActionMixin):
+class GenreViewSet(PermissionByActionMixin, GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
     permission_classes_by_action = {'list': [AllowAny],
                                     'create': [IsAdminUser]}
 
 
-class ArtistViewSet(MultiSerializerViewSetMixin, ModelViewSet, PermissionByActionMixin):
+class ArtistViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
     queryset = Artist.objects.all()
     serializer_class = ArtistDetailSerializer
     serializer_action_classes = {
@@ -44,7 +44,7 @@ class ArtistViewSet(MultiSerializerViewSetMixin, ModelViewSet, PermissionByActio
                                     'create': [IsAuthenticated]}
 
 
-class SongViewSet(MultiSerializerViewSetMixin, PermissionByActionMixin, ModelViewSet):
+class SongViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongDetailSerializer
     serializer_action_classes = {

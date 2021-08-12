@@ -27,10 +27,15 @@ class TestArtists:
         }
         res = client.post(f'/api/v1/artists/', data=data, content_type='application/json')
 
-        assert res.status_code == status.HTTP_403_FORBIDDEN
+        assert res.status_code == status.HTTP_401_UNAUTHORIZED
+
+        #user_model = get_user_model()
+        #newuser = user_model.objects.create_user(email="test@t.com", username='tester', password='12345gh678')
+        #client.login(email="test@t.com", password='12345gh678')
 
         client.force_login(user)
 
+        res = client.post(f'/api/v1/artists/', data=data, content_type='application/json')
         response_data = res.json()
 
         assert res.status_code == status.HTTP_201_CREATED
