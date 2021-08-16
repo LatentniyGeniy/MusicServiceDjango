@@ -1,4 +1,5 @@
 import pytest
+from rest_framework.test import APIClient
 
 from core.tests.factories.media import (
     GenreFactory,
@@ -8,6 +9,11 @@ from core.tests.factories.media import (
     UserFactory,
     SuperUserFactory,
 )
+
+
+@pytest.fixture
+def api_client():
+    return APIClient()
 
 
 @pytest.fixture

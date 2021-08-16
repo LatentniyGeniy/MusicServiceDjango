@@ -1,11 +1,18 @@
 import pytest
-from django.contrib.auth import get_user_model
+import json
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from rest_framework import status
 
 
 @pytest.mark.django_db
 class TestArtists:
+
+    @staticmethod
+    def login_user(client, user) -> None:
+        refresh = RefreshToken.for_user(user)
+        client.credentials(HTTP_AUTHORIZATION=f'Bearer {refresh.access_token}')
+        # вынести как отдельную функцию и импортить в тестах
 
     @pytest.mark.parametrize('artists_qty', [0, 3, 5, 7])
     def test_list(self, client, artists, artists_qty):
@@ -19,29 +26,31 @@ class TestArtists:
         assert len(res.json()) == artists_qty
 
     @pytest.mark.parametrize('genres_qty', [3])
-    def test_create_artist(self, client, genres, genres_qty, user):
-        data = {
-            'title': 'Artist',
-            'picture_link': 'https://file/adrthy.png',
-            'genre': [genre.id for genre in genres],
-        }
-        res = client.post(f'/api/v1/artists/', data=data, content_type='application/json')
+    def test_create_artist(self, api_client, genres, genres_qty, user):
+        title = 'Artist'
+        picture_link = 'https://file/adrthy.png'
+        genre = [genre.id for genre in genres]
+
+        data = json.dumps({
+            'title': title,
+            'picture_link': picture_link,
+            'genre': genre,
+        })
+        res = api_client.post(f'/api/v1/artists/', data=data, content_type='application/json')
 
         assert res.status_code == status.HTTP_401_UNAUTHORIZED
 
-        #user_model = get_user_model()
-        #newuser = user_model.objects.create_user(email="test@t.com", username='tester', password='12345gh678')
-        #client.login(email="test@t.com", password='12345gh678')
-
-        client.force_login(user)
-
-        res = client.post(f'/api/v1/artists/', data=data, content_type='application/json')
+        self.login_user(api_client, user)
+        res = api_client.post(f'/api/v1/artists/', data=data, content_type='application/json')
         response_data = res.json()
 
+        import pdb
+        pdb.set_trace()
+
         assert res.status_code == status.HTTP_201_CREATED
-        assert response_data['title'] == data['title']
-        assert response_data['picture_link'] == data['picture_link']
-        assert len(response_data['genre']) == len(data['genre'])
+        assert response_data['title'] == title
+        assert response_data['picture_link'] == picture_link
+        assert len(response_data['genre']) == len(genre)
 
     def test_update_artist(self, client, artist, user):
         client.force_login(user)
