@@ -125,3 +125,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         the user's real name, we return their username instead.
         """
         return self.username
+
+
+class Playlist(models.Model):
+    title = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_playlist')
+    song = models.ManyToManyField(Song, related_name='song_playlist')
