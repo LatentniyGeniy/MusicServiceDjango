@@ -27,8 +27,7 @@ class TestGenres:
 
         assert res.status_code == status.HTTP_404_NOT_FOUND
 
-    def test_detail(self, client, genre, user):
-        client.force_login(user)
+    def test_detail(self, client, genre):
         res = client.get(f'/api/v1/genres/{genre.id}/')
         response_data = res.json()
 
