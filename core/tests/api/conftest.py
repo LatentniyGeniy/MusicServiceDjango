@@ -8,6 +8,7 @@ from core.tests.factories.media import (
     SongFactory,
     UserFactory,
     SuperUserFactory,
+    PlaylistFactory,
 )
 
 
@@ -62,5 +63,20 @@ def user():
 
 
 @pytest.fixture
+def users(users_qty):
+    return UserFactory.create_batch(size=users_qty)
+
+
+@pytest.fixture
 def superuser():
     return SuperUserFactory.create()
+
+
+@pytest.fixture
+def playlist():
+    return PlaylistFactory.create()
+
+
+@pytest.fixture
+def playlists(playlist_qty):
+    return PlaylistFactory.create_batch(size=playlist_qty)
