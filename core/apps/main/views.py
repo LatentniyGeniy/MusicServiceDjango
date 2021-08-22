@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from core.apps.main.mixins import MultiSerializerViewSetMixin, PermissionByActionMixin
-from core.apps.main.models import Album, Genre, Artist, Song
+from core.apps.main.models import Album, Genre, Artist, Song, Playlist
 from core.apps.main.serializers import (
     AlbumDetailSerializer,
     AlbumListSerializer,
@@ -11,7 +11,7 @@ from core.apps.main.serializers import (
     ArtistDetailSerializer,
     ArtistListSerializer,
     SongDetailSerializer,
-    SongListSerializer,
+    SongListSerializer, PlaylistDetailSerializer, PlaylistListSerializer,
 )
 
 
@@ -50,6 +50,17 @@ class SongViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelVie
     serializer_action_classes = {
         'list': SongListSerializer,
         'create': SongDetailSerializer,
+    }
+    permission_classes_by_action = {'list': [AllowAny],
+                                    'create': [IsAuthenticated]}
+
+
+class PlaylistViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
+    queryset = Playlist.objects.all()
+    serializer_class = PlaylistDetailSerializer
+    serializer_action_classes = {
+        'list': PlaylistListSerializer,
+        'create': PlaylistDetailSerializer,
     }
     permission_classes_by_action = {'list': [AllowAny],
                                     'create': [IsAuthenticated]}

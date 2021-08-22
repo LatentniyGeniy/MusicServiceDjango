@@ -1,13 +1,9 @@
-import datetime
-
-from django.contrib.auth import get_user_model
-from factory import fuzzy
-from faker import Faker
-
 import factory
-from pytz import UTC
 
-from core.apps.main.models import Genre, Artist, Album, Song, User
+from factory import fuzzy
+from django.contrib.auth import get_user_model
+
+from core.apps.main.models import Genre, Artist, Album, Song, Playlist
 
 
 class GenreFactory(factory.django.DjangoModelFactory):
@@ -60,3 +56,12 @@ class UserFactory(factory.django.DjangoModelFactory):
 class SuperUserFactory(UserFactory):
     is_superuser = True
     is_staff = True
+
+
+class PlaylistFactory(factory.django.DjangoModelFactory):
+    title = factory.fuzzy.FuzzyText(length=5, prefix='Playlist_')
+    user = factory.SubFactory(UserFactory)
+    song = factory.RelatedFactory(SongFactory)
+
+    class Meta:
+        model = Playlist

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.apps.main.models import Album, Genre, Artist, Song
+from core.apps.main.models import Album, Genre, Artist, Song, Playlist
 
 
 class SongSerializer(serializers.ModelSerializer):
@@ -52,3 +52,15 @@ class SongDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Song
         fields = ("id", "title", "album", "genre", "file_link")
+
+
+class PlaylistListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Playlist
+        fields = ("id", "title")
+
+
+class PlaylistDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Playlist
+        fields = ("id", "title", "user", "song")
