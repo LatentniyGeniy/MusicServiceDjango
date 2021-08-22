@@ -39,19 +39,6 @@ class Song(models.Model):
     file_link = models.CharField(max_length=255)
 
 
-class User(models.Model):
-    name = models.CharField(max_length=30, unique=True)
-    password = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    date_of_birth = models.DateField()
-
-
-class Playlist(models.Model):
-    title = models.CharField(max_length=255)
-    song = models.ManyToManyField(Song)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
 class UserManager(BaseUserManager):
     """
     Django requires that custom users define their own Manager class. By

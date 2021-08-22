@@ -1,9 +1,13 @@
+import datetime
+
+from django.contrib.auth import get_user_model
 from factory import fuzzy
+from faker import Faker
 
 import factory
+from pytz import UTC
 
-
-from core.apps.main import Genre, Artist, Album, Song
+from core.apps.main.models import Genre, Artist, Album, Song, User
 
 
 class GenreFactory(factory.django.DjangoModelFactory):
@@ -42,3 +46,17 @@ class SongFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Song
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    username = factory.fuzzy.FuzzyText(length=10)
+    email = factory.LazyAttribute(lambda a: '{}@example.com'.format(a.username).lower())
+    password = factory.fuzzy.FuzzyText(length=15)
+
+    class Meta:
+        model = get_user_model()
+
+
+class SuperUserFactory(UserFactory):
+    is_superuser = True
+    is_staff = True

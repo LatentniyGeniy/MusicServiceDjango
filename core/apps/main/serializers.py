@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.apps.main.models import Album, Genre, Artist, Song, User
+from core.apps.main.models import Album, Genre, Artist, Song
 
 
 class SongSerializer(serializers.ModelSerializer):
@@ -52,21 +52,3 @@ class SongDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Song
         fields = ("id", "title", "album", "genre", "file_link")
-
-
-class RegistrationSerializer(serializers.ModelSerializer):
-    """Serializers registration requests and creates a new user."""
-    password = serializers.CharField(
-        max_length=128,
-        min_length=8,
-        write_only=True
-    )
-
-    token = serializers.CharField(max_length=255, read_only=True)
-
-    class Meta:
-        model = User
-        fields = ['email', 'username', 'password', 'token']
-
-    def create(self, validated_data):
-        return User.objects.create_user(**validated_data)

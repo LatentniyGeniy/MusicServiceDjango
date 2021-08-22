@@ -1,9 +1,9 @@
-from rest_framework.mixins import ListModelMixin, CreateModelMixin
-from rest_framework.permissions import AllowAny
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet, GenericViewSet
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from core.apps.main.mixins import MultiSerializerViewSetMixin
-from core.apps.main.models import Album, Genre, Artist, Song, User
+from core.apps.main.mixins import MultiSerializerViewSetMixin, PermissionByActionMixin
+from core.apps.main.models import Album, Genre, Artist, Song
 from core.apps.main.serializers import (
     AlbumDetailSerializer,
     AlbumListSerializer,
@@ -12,43 +12,44 @@ from core.apps.main.serializers import (
     ArtistListSerializer,
     SongDetailSerializer,
     SongListSerializer,
-    RegistrationSerializer,
 )
 
 
-class AlbumViewSet(MultiSerializerViewSetMixin, ModelViewSet):
+class AlbumViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
     queryset = Album.objects.all()
     serializer_class = AlbumDetailSerializer
     serializer_action_classes = {
         'list': AlbumListSerializer,
         'create': AlbumDetailSerializer,
     }
+    permission_classes_by_action = {'list': [AllowAny],
+                                    'create': [IsAuthenticated]}
 
 
-class GenreViewSet(ReadOnlyModelViewSet):
+class GenreViewSet(PermissionByActionMixin, GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+    permission_classes_by_action = {'list': [AllowAny],
+                                    'create': [IsAdminUser]}
 
 
-class ArtistViewSet(MultiSerializerViewSetMixin, ModelViewSet):
+class ArtistViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
     queryset = Artist.objects.all()
     serializer_class = ArtistDetailSerializer
     serializer_action_classes = {
         'list': ArtistListSerializer,
         'create': ArtistDetailSerializer,
     }
+    permission_classes_by_action = {'list': [AllowAny],
+                                    'create': [IsAuthenticated]}
 
 
-class SongViewSet(MultiSerializerViewSetMixin, ModelViewSet):
+class SongViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongDetailSerializer
     serializer_action_classes = {
         'list': SongListSerializer,
         'create': SongDetailSerializer,
     }
-
-
-class RegistrationAPIView(GenericViewSet, ListModelMixin, CreateModelMixin):
-    queryset = User.objects.all()
-    permission_classes = (AllowAny,)
-    serializer_class = RegistrationSerializer
+    permission_classes_by_action = {'list': [AllowAny],
+                                    'create': [IsAuthenticated]}
