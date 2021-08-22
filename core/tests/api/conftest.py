@@ -11,10 +11,7 @@ from core.tests.factories.media import (
     PlaylistFactory,
 )
 
-
-@pytest.fixture
-def api_client():
-    return APIClient()
+from core.tests.factories.media import GenreFactory, ArtistFactory, AlbumFactory, SongFactory
 
 
 @pytest.fixture
