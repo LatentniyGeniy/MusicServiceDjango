@@ -11,7 +11,9 @@ from core.apps.main.serializers import (
     ArtistDetailSerializer,
     ArtistListSerializer,
     SongDetailSerializer,
-    SongListSerializer, PlaylistDetailSerializer, PlaylistListSerializer,
+    SongListSerializer,
+    PlaylistDetailSerializer,
+    PlaylistListSerializer,
 )
 
 

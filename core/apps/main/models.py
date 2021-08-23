@@ -26,7 +26,7 @@ class Album(models.Model):
     release_type = models.CharField(
         max_length=10,
         choices=RELEASE_TYPE_CHOICES,
-        default=ALBUM
+        default=ALBUM,
     )
     genre = models.ManyToManyField(Genre)
     picture_link = models.CharField(max_length=255)

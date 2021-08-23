@@ -87,14 +87,14 @@ DATABASES = {
         'PASSWORD': 'postgres',
         'HOST': 'postgres',
         'PORT': 5432,
-    }
+    },
 }
 
 # DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
 }
 
 
