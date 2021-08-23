@@ -2,7 +2,7 @@ from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveMode
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from core.apps.main.mixins import MultiSerializerViewSetMixin, PermissionByActionMixin
+from core.apps.main.mixins import MultiSerializerViewSetMixin, PermissionByActionMixin, LikedMixin
 from core.apps.main.models import Album, Genre, Artist, Song, Playlist
 from core.apps.main.serializers import (
     AlbumDetailSerializer,
@@ -17,7 +17,7 @@ from core.apps.main.serializers import (
 )
 
 
-class AlbumViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
+class AlbumViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, LikedMixin, ModelViewSet):
     queryset = Album.objects.all()
     serializer_class = AlbumDetailSerializer
     serializer_action_classes = {
@@ -35,7 +35,7 @@ class GenreViewSet(PermissionByActionMixin, GenericViewSet, CreateModelMixin, Li
                                     'create': [IsAdminUser]}
 
 
-class ArtistViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
+class ArtistViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, LikedMixin, ModelViewSet):
     queryset = Artist.objects.all()
     serializer_class = ArtistDetailSerializer
     serializer_action_classes = {
@@ -46,7 +46,7 @@ class ArtistViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelV
                                     'create': [IsAuthenticated]}
 
 
-class SongViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
+class SongViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, LikedMixin, ModelViewSet):
     queryset = Song.objects.all()
     serializer_class = SongDetailSerializer
     serializer_action_classes = {
@@ -57,7 +57,7 @@ class SongViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelVie
                                     'create': [IsAuthenticated]}
 
 
-class PlaylistViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, ModelViewSet):
+class PlaylistViewSet(PermissionByActionMixin, MultiSerializerViewSetMixin, LikedMixin, ModelViewSet):
     queryset = Playlist.objects.all()
     serializer_class = PlaylistDetailSerializer
     serializer_action_classes = {
