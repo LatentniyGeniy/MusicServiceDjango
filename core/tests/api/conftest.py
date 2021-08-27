@@ -1,4 +1,5 @@
 import pytest
+
 from rest_framework.test import APIClient
 
 from core.tests.factories.media import (
@@ -9,9 +10,13 @@ from core.tests.factories.media import (
     UserFactory,
     SuperUserFactory,
     PlaylistFactory,
+    LikeFactory,
 )
 
-from core.tests.factories.media import GenreFactory, ArtistFactory, AlbumFactory, SongFactory
+
+@pytest.fixture
+def api_client():
+    return APIClient()
 
 
 @pytest.fixture
@@ -77,3 +82,8 @@ def playlist():
 @pytest.fixture
 def playlists(playlist_qty):
     return PlaylistFactory.create_batch(size=playlist_qty)
+
+
+@pytest.fixture
+def like():
+    return LikeFactory.create()
