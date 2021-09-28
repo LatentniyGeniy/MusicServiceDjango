@@ -1,9 +1,9 @@
 import factory
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.models import ContentType
+
 from factory import fuzzy
 
-from core.apps.main.models import Genre, Artist, Album, Song, Playlist, Like
+from core.apps.main.models import Genre, Artist, Album, Song, Playlist
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -67,18 +67,3 @@ class PlaylistFactory(factory.django.DjangoModelFactory):
         model = Playlist
 
 
-class LikeItemFactory(factory.django.DjangoModelFactory):
-    object_id = factory.SelfAttribute('content_object.id')
-    content_type = factory.LazyAttribute(
-        lambda o: ContentType.objects.get_for_model(o.content_object))
-
-    class Meta:
-        exclude = ['content_object']
-        abstract = True
-
-
-class LikeFactory(LikeItemFactory):
-    content_object = factory.SubFactory(UserFactory)
-
-    class Meta:
-        model = Like

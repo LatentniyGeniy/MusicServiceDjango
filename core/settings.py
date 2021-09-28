@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'core.apps.like',
     'core.apps.authentication',
     'core.apps.main',
     'rest_framework',

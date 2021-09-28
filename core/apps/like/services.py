@@ -6,7 +6,7 @@ User = get_user_model()
 
 
 def add_like(obj, user):
-    """Лайкает `obj`.
+    """Like `obj`.
     """
     obj_type = ContentType.objects.get_for_model(obj)
     like, is_created = Like.objects.get_or_create(
@@ -15,7 +15,7 @@ def add_like(obj, user):
 
 
 def remove_like(obj, user):
-    """Удаляет лайк с `obj`.
+    """ Deletes a like in `obj`.
     """
     obj_type = ContentType.objects.get_for_model(obj)
     Like.objects.filter(content_type=obj_type, object_id=obj.id, user=user).delete()

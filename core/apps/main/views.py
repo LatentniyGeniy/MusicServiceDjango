@@ -2,7 +2,8 @@ from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveMode
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from core.apps.main.mixins import MultiSerializerViewSetMixin, PermissionByActionMixin, LikedMixin
+from core.apps.main.mixins import MultiSerializerViewSetMixin, PermissionByActionMixin
+from core.apps.like.mixins import LikedMixin
 from core.apps.main.models import Album, Genre, Artist, Song, Playlist
 from core.apps.main.serializers import (
     AlbumDetailSerializer,

@@ -10,7 +10,6 @@ from core.tests.factories.media import (
     UserFactory,
     SuperUserFactory,
     PlaylistFactory,
-    LikeFactory,
 )
 
 
@@ -82,8 +81,3 @@ def playlist():
 @pytest.fixture
 def playlists(playlist_qty):
     return PlaylistFactory.create_batch(size=playlist_qty)
-
-
-@pytest.fixture
-def like():
-    return LikeFactory.create()
