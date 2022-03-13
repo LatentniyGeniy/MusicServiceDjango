@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'core.apps.like',
     'core.apps.authentication',
     'core.apps.main',
     'rest_framework',
@@ -87,14 +88,14 @@ DATABASES = {
         'PASSWORD': 'postgres',
         'HOST': 'postgres',
         'PORT': 5432,
-    }
+    },
 }
 
 # DRF
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
 }
 
 

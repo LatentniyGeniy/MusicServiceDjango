@@ -1,4 +1,5 @@
 import pytest
+
 from rest_framework.test import APIClient
 
 from core.tests.factories.media import (
@@ -11,7 +12,10 @@ from core.tests.factories.media import (
     PlaylistFactory,
 )
 
-from core.tests.factories.media import GenreFactory, ArtistFactory, AlbumFactory, SongFactory
+
+@pytest.fixture
+def api_client():
+    return APIClient()
 
 
 @pytest.fixture

@@ -11,10 +11,11 @@ class SongSerializer(serializers.ModelSerializer):
 
 class AlbumDetailSerializer(serializers.ModelSerializer):
     songs = SongSerializer(many=True, read_only=True)
+    is_fan = serializers.SerializerMethodField()
 
     class Meta:
         model = Album
-        fields = ("id", "title", "release_date", "artist", "genre", "release_type", "picture_link", 'songs')
+        fields = ("id", "title", "release_date", "artist", "genre", "release_type", "picture_link", 'songs', 'is_fan')
 
 
 class AlbumListSerializer(serializers.ModelSerializer):
@@ -30,10 +31,11 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class ArtistDetailSerializer(serializers.ModelSerializer):
+    is_fan = serializers.SerializerMethodField()
 
     class Meta:
         model = Artist
-        fields = ("id", "title", "genre", "picture_link")
+        fields = ("id", "title", "genre", "picture_link", 'is_fan')
 
 
 class ArtistListSerializer(serializers.ModelSerializer):
@@ -49,9 +51,11 @@ class SongListSerializer(serializers.ModelSerializer):
 
 
 class SongDetailSerializer(serializers.ModelSerializer):
+    is_fan = serializers.SerializerMethodField()
+
     class Meta:
         model = Song
-        fields = ("id", "title", "album", "genre", "file_link")
+        fields = ("id", "title", "album", "genre", "file_link", 'is_fan')
 
 
 class PlaylistListSerializer(serializers.ModelSerializer):
@@ -61,6 +65,8 @@ class PlaylistListSerializer(serializers.ModelSerializer):
 
 
 class PlaylistDetailSerializer(serializers.ModelSerializer):
+    is_fan = serializers.SerializerMethodField()
+
     class Meta:
         model = Playlist
-        fields = ("id", "title", "user", "song")
+        fields = ("id", "title", "user", "song", 'is_fan')

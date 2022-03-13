@@ -1,9 +1,23 @@
 import factory
-
-from factory import fuzzy
 from django.contrib.auth import get_user_model
 
+from factory import fuzzy
+
 from core.apps.main.models import Genre, Artist, Album, Song, Playlist
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    username = factory.fuzzy.FuzzyText(length=10)
+    email = factory.LazyAttribute(lambda a: '{}@example.com'.format(a.username).lower())
+    password = factory.fuzzy.FuzzyText(length=15)
+
+    class Meta:
+        model = get_user_model()
+
+
+class SuperUserFactory(UserFactory):
+    is_superuser = True
+    is_staff = True
 
 
 class GenreFactory(factory.django.DjangoModelFactory):
@@ -44,20 +58,6 @@ class SongFactory(factory.django.DjangoModelFactory):
         model = Song
 
 
-class UserFactory(factory.django.DjangoModelFactory):
-    username = factory.fuzzy.FuzzyText(length=10)
-    email = factory.LazyAttribute(lambda a: '{}@example.com'.format(a.username).lower())
-    password = factory.fuzzy.FuzzyText(length=15)
-
-    class Meta:
-        model = get_user_model()
-
-
-class SuperUserFactory(UserFactory):
-    is_superuser = True
-    is_staff = True
-
-
 class PlaylistFactory(factory.django.DjangoModelFactory):
     title = factory.fuzzy.FuzzyText(length=5, prefix='Playlist_')
     user = factory.SubFactory(UserFactory)
@@ -65,3 +65,5 @@ class PlaylistFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Playlist
+
+

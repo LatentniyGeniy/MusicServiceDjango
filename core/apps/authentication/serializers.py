@@ -8,7 +8,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         max_length=128,
         min_length=8,
-        write_only=True
+        write_only=True,
     )
     token = serializers.CharField(max_length=255, read_only=True)
 

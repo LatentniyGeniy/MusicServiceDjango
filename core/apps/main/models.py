@@ -1,42 +1,11 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
 
 from core.apps.main.choices import ALBUM, RELEASE_TYPE_CHOICES
-
-
-class Genre(models.Model):
-    title = models.CharField(max_length=255, unique=True)
-
-    def __str__(self):
-        return self.title
-
-
-class Artist(models.Model):
-    title = models.CharField(max_length=255, unique=True)
-    picture_link = models.CharField(max_length=255)
-    genre = models.ManyToManyField(Genre)
-
-
-class Album(models.Model):
-    title = models.CharField(max_length=255)
-    artist = models.ManyToManyField(Artist, related_name='albums')
-    release_date = models.DateField()
-    release_type = models.CharField(
-        max_length=10,
-        choices=RELEASE_TYPE_CHOICES,
-        default=ALBUM
-    )
-    genre = models.ManyToManyField(Genre)
-    picture_link = models.CharField(max_length=255)
-
-
-class Song(models.Model):
-    title = models.CharField(max_length=255)
-    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='songs')
-    genre = models.ManyToManyField(Genre)
-    file_link = models.CharField(max_length=255)
 
 
 class UserManager(BaseUserManager):
@@ -127,7 +96,52 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+
+class Genre(models.Model):
+    title = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Artist(models.Model):
+    title = models.CharField(max_length=255, unique=True)
+    picture_link = models.CharField(max_length=255)
+    genre = models.ManyToManyField(Genre)
+    likes = GenericRelation(Like)
+
+
+class Album(models.Model):
+    title = models.CharField(max_length=255)
+    artist = models.ManyToManyField(Artist, related_name='albums')
+    release_date = models.DateField()
+    release_type = models.CharField(
+        max_length=10,
+        choices=RELEASE_TYPE_CHOICES,
+        default=ALBUM,
+    )
+    genre = models.ManyToManyField(Genre)
+    picture_link = models.CharField(max_length=255)
+    likes = GenericRelation(Like)
+
+
+class Song(models.Model):
+    title = models.CharField(max_length=255)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='songs')
+    genre = models.ManyToManyField(Genre)
+    file_link = models.CharField(max_length=255)
+    likes = GenericRelation(Like)
+
+
 class Playlist(models.Model):
     title = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_playlist')
     song = models.ManyToManyField(Song, related_name='song_playlist')
+    likes = GenericRelation(Like)

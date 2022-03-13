@@ -1,4 +1,5 @@
 from .models import Album
+
 from django.forms import ModelForm, TextInput, DateInput
 
 
@@ -9,17 +10,17 @@ class AlbumForm(ModelForm):
         widgets = {
             "title": TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Введите название альбома'
+                'placeholder': 'Введите название альбома',
             }),
             "release_date": DateInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Введите дату выхода'
+                'placeholder': 'Введите дату выхода',
             }),
             "release_type": TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Введите тип релиза'
+                'placeholder': 'Введите тип релиза',
             }),
             "picture_link": TextInput(attrs={
                 'class': 'form-control',
-            })
+            }),
         }
